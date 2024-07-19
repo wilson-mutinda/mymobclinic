@@ -70,13 +70,14 @@ h6 {
   font-family: var(--heading-font);
 }
 
+
 /*--------------------------------------------------------------
 # Global Header
 --------------------------------------------------------------*/
 .header {
   color: var(--default-color);
   background-color: var(--background-color);
-  padding: 20px 0;
+  padding: 8px 0;
   transition: all 0.5s;
   z-index: 997;
   border-bottom: 1px solid color-mix(in srgb, var(--accent-color), transparent 85%);
@@ -2113,10 +2114,9 @@ body {
 }
 
 #symptomForms input {
-  padding: 15px 20px;
+  padding: 0px 5px;
   width: 100%;
   font-size: 1em;
-  border: 1px solid #e3e3e3;
   border-radius: 5px;
 }
 
@@ -2160,3 +2160,5 @@ body {
   background-color: #fff;
   color: #009688;
 }
+
+

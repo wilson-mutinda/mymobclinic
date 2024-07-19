@@ -1,0 +1,63 @@
+{% extends "blog/miscellaneous.html" %}
+{% block content %}
+<div class="row">
+    <main class="col-md-10 ms-sm-auto col-lg-11 px-md-4">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <section class="vh-100 gradient-custom">
+                        <div class="py-2 mt-3">
+                            <div class="row justify-content-center align-items-center h-100">
+                                <div class="col-12 col-lg-10 col-xl-10">
+                                    <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                                        <div class="card-body p-4">
+                                            <h5 class="mb-4 pb-md-0 mb-md-4">Location Details</h5>
+                                            <div class="container">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">S.NO:</th>
+                                                            <th scope="col">SubCounty:</th>
+                                                            <th scope="col">County:</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for subcounty in subcounties %}
+                                                            <tr>
+                                                                <td>{{ forloop.counter0|add:subcounties.start_index }}</td>
+                                                                <td>{{ subcounty.subcountyname }}</td>
+                                                                <td>{{ subcounty.county.county_name }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                                <div class="pagination">
+                                                    <span class="step-links">
+                                                        {% if subcounties.has_previous %}
+                                                            <a href="?page=1">&laquo; first</a>
+                                                            <a href="?page={{ subcounties.previous_page_number }}">previous</a>
+                                                        {% endif %}
+                        
+                                                        <span class="current">
+                                                            Page {{ subcounties.number }} of {{ subcounties.paginator.num_pages }}.
+                                                        </span>
+                        
+                                                        {% if subcounties.has_next %}
+                                                            <a href="?page={{ subcounties.next_page_number }}">next</a>
+                                                            <a href="?page={{ subcounties.paginator.num_pages }}">last &raquo;</a>
+                                                        {% endif %}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock content %}

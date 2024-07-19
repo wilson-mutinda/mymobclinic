@@ -1,0 +1,50 @@
+{% extends "blog/medical_ailment.html" %}
+{% block content %}
+<div class="row">
+    <!-- Main Content -->
+    <main class="col-md-12 ms-sm-auto col-lg-9">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <section class="vh-100 gradient-custom">
+                        <div class="py-2 mt-3">
+                            <div class="row justify-content-center align-items-center h-100">
+                                <div class="col-12 col-lg-10 col-xl-10">
+                                    <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                                        <div class="card-body p-4">
+                                            <h5 class="mb-4 pb-md-0 mb-md-4">System Discomfort Form</h5>
+                                            <form method="POST" action="{% url 'ailment_system_discomfort' %}">
+                                                {% csrf_token %}
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-4">
+                                                        <label class="form-label select-label">Body System</label>
+                                                        <select class="select form-control" name="body_system">
+                                                            <option value="" disabled selected>Choose System</option>
+                                                            {% for system in systems %}
+                                                                <option value="{{ system.id }}">{{ system.system_name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6 mb-4">
+                                                        <div class="form-outline">
+                                                            {{form.discomfort_name.label_tag}}
+                                                            {{form.discomfort_name}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-4 pt-2">
+                                                    <input class="btn btn-primary btn-sm" type="submit" value="Submit" />
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main><!-- End Main Content -->
+</div><!-- End Row -->
+{% endblock content %}

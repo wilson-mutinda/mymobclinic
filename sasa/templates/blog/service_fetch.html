@@ -1,0 +1,63 @@
+{% extends "blog/services.html" %}
+{% block content %}
+<div class="row">
+    <main class="col-md-10 ms-sm-auto col-lg-11 px-md-4" >
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <section class="vh-100 gradient-custom">
+                        <div class="py-2 mt-3">
+                            <div class="row justify-content-center align-items-center h-100">
+                                <div class="col-12 col-lg-10 col-xl-10">
+                                    <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                                        <div class="card-body p-4">
+                                            <h5 class="mb-4 pb-md-0 mb-md-2">Service list</h5>
+                                            <div class="container">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">S.NO:</th>
+                                                            <th scope="col">Services:</th>
+                                                            <th scope="col">Category:</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for service in services %}
+                                                            <tr>
+                                                                <td>{{ forloop.counter0|add:services.start_index }}</td>
+                                                                <td>{{ service.name }}</td>
+                                                                <td>{{ service.category.category_name }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                                <div class="pagination">
+                                                    <span class="step-links">
+                                                        {% if services.has_previous %}
+                                                            <a href="?page=1">&laquo; first</a>
+                                                            <a href="?page={{ services.previous_page_number }}">previous</a>
+                                                        {% endif %}
+                        
+                                                        <span class="current">
+                                                            Page {{ services.number }} of {{ services.paginator.num_pages }}.
+                                                        </span>
+                        
+                                                        {% if services.has_next %}
+                                                            <a href="?page={{ services.next_page_number }}">next</a>
+                                                            <a href="?page={{ services.paginator.num_pages }}">last &raquo;</a>
+                                                        {% endif %}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock content %}

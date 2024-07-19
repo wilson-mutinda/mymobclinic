@@ -1,0 +1,66 @@
+{% extends "blog/dashboard.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Aside Sidebar -->
+        <!-- Main Content -->
+        <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4" style="margin-top: 60px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <h5>Facility</h5>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                              <li class="breadcrumb-item"><a href="{%url 'dashboard'%}">Home</a></li>
+                              <li class="breadcrumb-item active" aria-current="page">Facility</li>
+                            </ol>
+                          </nav>
+                    </div>
+                    <!-- Stack the columns on mobile by making one full-width and the other half-width -->
+                    <div class="container shadow p-4">
+                        <div class="row justify-content-start" style="margin-top: 10px;">
+                          <div class="col-4" style="margin-top: 10px;">
+                            Name: {{facility.name}}
+                          </div>
+                          <div class="col-4" style="margin-top: 10px;">
+                            Code: {{facility.worknumber}}
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-4" style="margin-top: 10px;">
+                                Facility Type: {{facility.facility_type}}
+                            </div>
+                          <div class="col-4" style="margin-top: 10px;">
+                            Phone: {{facility.phone}}
+                          </div>
+                          <div class="col-4" style="margin-top: 10px;">
+                            Email: {{facility.email}}
+                          </div>
+                        </div>
+                        <div class="row justify-content-end">
+                          <div class="col-4" style="margin-top: 10px;">
+                            SubCounty: {{facility.subcounty}}
+                          </div>
+                          <div class="col-4" style="margin-top: 10px;">
+                            Location: {{facility.location}}
+                          </div>
+                          <div class="col-4" style="margin-top: 10px;">
+                            Address: {{facility.address}}
+                          </div>
+                        </div>
+                        <div class="row justify-content-around">
+                        </div>
+                        <div class="row justify-content-between mt-5">
+                          
+                          <div class="col-4" style="margin-top: 10px;">
+                            <a href="{% url 'update' facility.id%}" class="btn btn-info">Edit</a>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </main><!-- End Main Content -->
+    </div><!-- End Row -->
+</div><!-- End Container Fluid -->
+{% endblock content %}

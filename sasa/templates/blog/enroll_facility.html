@@ -1,0 +1,123 @@
+{% extends "blog/dashboard.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Main Content -->
+        <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4" style="margin-top: 60px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <h5>{% if form.instance.id %}Update{% else %}Enroll{% endif %} Facility</h5>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'facility_fetch' %}">Facility</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">{% if form.instance.id %}Update{% else %}Enroll{% endif %}</li>
+                            </ol>
+                        </nav>
+                        <section class="h-100 bg-dark">
+                            <div class="container py-5 h-100">
+                                <div class="row d-flex justify-content-center align-items-center h-100">
+                                    <div class="col">
+                                        <div class="card card-registration my-4">
+                                            <div class="row g-0">
+                                                <div class="col-xl-12">
+                                                    <div class="card-body p-md-5 text-black">
+                                                        <h3 class="mb-5 text-uppercase">{% if form.instance.id %}Update{% else %}Enroll{% endif %} Facility Form</h3>
+
+                                                        <form method="post" action="{% if form.instance.id %}{% url 'update' form.instance.id %}{% else %}{% url 'enroll_facility' %}{% endif %}">
+                                                            {% csrf_token %}
+                                                            {% if form.instance.id %}
+                                                                <input type="hidden" name="_method" value="PUT">
+                                                            {% endif %}
+                                                            <div class="row">
+                                                                <div class="col-md-6 mb-4">
+                                                                    <div data-mdb-input-init class="form-outline">
+                                                                        {{ form.name.label_tag }}
+                                                                    </div><div>
+                                                                        {{ form.name }}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6 mb-4">
+                                                                    <div data-mdb-input-init class="form-outline">
+                                                                        {{ form.worknumber.label_tag }}
+                                                                    </div><div>
+                                                                        {{ form.worknumber }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-md-6 mb-4">
+                                                                    <div data-mdb-input-init class="form-outline">
+                                                                        {{ form.phone.label_tag }}
+                                                                    </div><div>
+                                                                        {{ form.phone }}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6 mb-4">
+                                                                    <div data-mdb-input-init class="form-outline">
+                                                                        {{ form.email.label_tag }}
+                                                                    </div><div>
+                                                                        {{ form.email }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-md-6 mb-4">
+                                                                    <div data-mdb-input-init class="form-outline">
+                                                                    {{ form.location.label_tag }}
+                                                                </div><div>
+                                                                    {{ form.location }}
+                                                                </div>
+                                                                <div class="col-md-6 mb-4">
+                                                                    <div data-mdb-input-init class="form-outline">
+                                                                    {{ form.address.label_tag }}
+                                                                </div><div>
+                                                                    {{ form.address }}
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-md-6 mb-4">
+                                                                    <div data-mdb-input-init class="form-outline">
+                                                                        <label class="form-label select-label" for="id_facility_type">Facility Type</label>
+                                                                        <select id="id_facility_type" class="select form-control" name="facility_type">
+                                                                            <option value="Public" {% if form.facility_type.value == 'Public' %}selected{% endif %}>Public</option>
+                                                                            <option value="Private" {% if form.facility_type.value == 'Private' %}selected{% endif %}>Private</option>
+                                                                            <option value="Other" {% if form.facility_type.value == 'Other' %}selected{% endif %}>Other</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6 mb-4">
+                                                                    <label for="subcounty" class="form-label select-label">Subcounty</label>
+                                                                    <select name="subcounty" id="id_subcounty" class="select form-control">
+                                                                        <option value="" disabled selected></option>
+                                                                        {% for subcounty in subcounties %}
+                                                                            <option value="{{ subcounty.id }}">{{ subcounty.subcountyname }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="mt-4 pt-2">
+                                                                <input data-mdb-ripple-init class="btn btn-primary btn-sm" type="submit" value="{% if form.instance.id %}Update{% else %}Submit{% endif %}" />
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </main><!-- End Main Content -->
+    </div><!-- End Row -->
+</div><!-- End Container Fluid -->
+{% endblock content %}

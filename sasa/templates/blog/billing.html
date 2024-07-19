@@ -1,0 +1,103 @@
+{% extends "blog/dashboard.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Aside Sidebar -->
+        <!-- Main Content -->
+        <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4" style="margin-top: 60px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <h5>Billing</h5>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                              <li class="breadcrumb-item"><a href="{%url 'dashboard'%}">Home</a></li>
+                              <li class="breadcrumb-item active" aria-current="page">Billing</li>
+                            </ol>
+                          </nav>
+                          <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+                            <div class="container bootstrap snippets bootdeys">
+                            <div class="row">
+                            <div class="col-sm-12">
+                                    <div class="panel panel-default invoice" id="invoice">
+                                    <div class="panel-body">
+                                        <div class="invoice-ribbon"><div class="ribbon-inner">PAID</div></div>
+                                        <div class="row">
+
+                                            <div class="col-sm-6 top-left">
+                                                <i class="fa fa-rocket"></i>
+                                            </div>
+
+                                            <div class="col-sm-6 top-right">
+                                                    <h3 class="marginright">INVOICE NO</h3>
+                                                    <span class="marginright">Date</span>
+                                            </div>
+
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+
+                                            <div class="col-xs-4 from">
+                                                <p class="lead marginbottom">From : Facility Details</p>
+                                            </div>
+
+                                            <div class="col-xs-4 to">
+                                                <p class="lead marginbottom">To : Patient Details</p>
+                                            </div>
+
+                                            <div class="col-xs-4 text-right payment-details">
+                                                <p class="lead marginbottom payment-info">Payment details</p>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row table-row">
+                                            <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                <th class="text-center" style="width:5%">Serial No:</th>
+                                                <th style="width:50%">Name:</th>
+                                                <th class="text-right" style="width:15%">Condition</th>
+                                                <th class="text-right" style="width:15%">Severity</th>
+                                                <th class="text-right" style="width:15%">Specialist</th>
+                                                <th class="text-right" style="width:15%">Prescriptions</th>
+                                                <th class="text-right" style="width:15%">Total Price</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                <td class="text-center">1</td>
+                                                <td>Flatter Theme</td>
+                                                <td class="text-right">Cough</td>
+                                                <td class="text-right">Mild</td>
+                                                <td class="text-right">John</td>
+                                                <td class="text-right">Piriton</td>
+                                                <td class="text-right">Ksh 500</td>
+                                                </tr>
+                                            </tbody>
+                                            </table>
+
+                                        </div>
+
+                                        <div class="row">
+                                        <div class="col-xs-6 margintop">
+                                            <p class="lead marginbottom">THANK YOU!</p>
+
+                                            <button class="btn btn-success" id="invoice-print"><i class="fa fa-print"></i> Print Invoice</button>
+                                            <button class="btn btn-danger"><i class="fa fa-envelope-o"></i> Mail Invoice</button>
+                                        </div>
+                                        </div>
+
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </main><!-- End Main Content -->
+    </div><!-- End Row -->
+</div><!-- End Container Fluid -->
+{% endblock content %}

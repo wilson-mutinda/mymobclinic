@@ -4,9 +4,9 @@
 {% block title %}Symptoms{% endblock %}
 
 {% block content %}
-<h1>Symptoms</h1>
+<h5>Symptoms</h5>
 
-<h1 class="text-center fs-10">EWILLIS</h1>
+<h5 class="text-center fs-10">EWILLIS</h5>
 <form id="symptomForms" action="{% url 'symptoms' %}" method="POST">
     {% csrf_token %}
     <!-- Step indicators -->
@@ -17,80 +17,45 @@
 
     <!-- Step one -->
     <div class="step">
-        <p class="text-center mb-6">Possible Ailments:</p>
+        <p class="text-center mb-6">Possible Discomforts:</p>
         <div class="mb-3">
-            <label for="cardiovascular"><strong>Cardiovascular</strong></label>
-            <select class="form-control mt-3" multiple id="cardiovascularSelect" name="cardiovascular_symptoms">
-                <option value="Chest pain">Chest pain</option>
-                <option value="Palpitations">Palpitations</option>
-                <option value="Shortness of breath">Shortness of breath</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="respiratory"><strong>Respiratory</strong></label>
-            <select class="form-control mt-3" multiple id="respiratorySelect" name="respiratory_symptoms">
-                <option value="Cough">Cough</option>
-                <option value="Wheezing">Wheezing</option>
-                <option value="Difficulty breathing">Difficulty breathing</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="gastrointestinal"><strong>Gastrointestinal</strong></label>
-            <select class="form-control mt-3" multiple id="gastrointestinalSelect" name="gastrointestinal_symptoms">
-                <option value="Abdominal Pain">Abdominal Pain</option>
-                <option value="Nausea">Nausea</option>
-                <option value="Vomiting">Vomiting</option>
-                <option value="Diarrhea">Diarrhea</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="neurological"> <strong>Neurological</strong></label>
-            <select class="form-control mt-3" multiple id="neurologicalSelect" name="neurological_symptoms">
-                <option value="Headache">Headache</option>
-                <option value="Dizziness">Dizziness</option>
-                <option value="Seizures">Seizures</option>
-                <option value="Weakness">Weakness</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="musculoskeletal"><strong>Musculoskeletal</strong></label>
-            <select class="form-control mt-3" multiple id="musculoskeletalSelect" name="musculoskeletal_symptoms">
-                <option value="Joint Pain">Joint Pain</option>
-                <option value="Muscle Pain">Muscle Pain</option>
-                <option value="Back Pain">Back Pain</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="dermatological"><strong>Dermatological</strong></label>
-            <select class="form-control mt-3" multiple id="dermatologicalSelect" name="dermatological_symptoms">
-                <option value="Rashes">Rashes</option>
-                <option value="Itching">Itching</option>
-                <option value="Swelling">Swelling</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="psychiatric"><strong>Psychiatric</strong></label>
-            <select class="form-control mt-3" multiple id="psychiatricSelect" name="psychiatric_symptoms">
-                <option value="Anxiety">Anxiety</option>
-                <option value="Depression">Depression</option>
-                <option value="Confusion">Confusion</option>
-            </select>
+            {% for bodysystem in bodysystems %}
+                <label><strong>{{ bodysystem.system_name }}</strong></label>
+                <select class="form-control body-system-select" name="{{ bodysystem.system_name|slugify }}_symptoms" multiple>
+                    <option value="" disabled>Select Symptoms</option>
+                    {% for discomfort in bodysystem.systemdiscomfort_set.all %}
+                        <option value="{{ discomfort.discomfort_name }}">{{ discomfort.discomfort_name }}</option>
+                    {% endfor %}
+                </select>
+            {% endfor %}
         </div>
     </div>
 
     <!-- Step two -->
-    <div class="step">
+    <!-- <div class="step">
         <p class="text-center mb-4">Severity:</p>
-        <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Mild" name="severity_mild">
-        </div>
-        <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Moderate" name="severity_moderate">
-        </div>
-        <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Severe" name="severity_severe">
-        </div>
-    </div>
+        {% for bodysystem in bodysystems %}
+            <div class="mb-3">
+                <label for="{{ bodysystem.system_name|slugify }}"><strong>{{ bodysystem.system_name }}</strong></label>
+                <div class="{{ bodysystem.system_name|slugify }} container">
+                    <div class="row mb-3">
+                        {% for discomfort in bodysystem.systemdiscomfort_set.all %}
+                            <div class="col-md-6 mt-2">
+                                <label for="{{ discomfort.discomfort_name|slugify }}">{{ discomfort.discomfort_name }}</label>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <select class="form-select" id="{{ discomfort.discomfort_name|slugify }}Select" name="{{ bodysystem.system_name|slugify }}_{{ discomfort.discomfort_name|slugify }}_severity">
+                                    <option value="mild">Mild</option>
+                                    <option value="moderate">Moderate</option>
+                                    <option value="severe">Severe</option>
+                                </select>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div> -->
 
     <!-- Previous / Next buttons -->
     <div class="form-footer d-flex">
@@ -98,6 +63,8 @@
         <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextPrev(1)">Next</button>
     </div>
 </form>
+
+<!--  -->
 {% endblock content %}
 
 {% block extra_css %}
@@ -106,5 +73,4 @@
 
 {% block extra_script %}
 <!-- Additional JS scripts if needed -->
-
 {% endblock extra_script %}

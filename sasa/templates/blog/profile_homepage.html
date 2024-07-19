@@ -1,0 +1,98 @@
+{% extends "blog/base.html"%}
+{% block content%}
+<!-- <h1>Profile</h1> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
+    integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <!-- Form START -->
+            <form class="file-upload shadow-lg p-3 mb-5 bg-white rounded m-3">
+                <div class="row mb-5 gx-5">
+                    <!-- Contact detail -->
+                    <div class="col-xxl-8 mb-5 mb-xxl-0">
+                        <div class="bg-secondary-soft px-4 py-5 rounded">
+                            <div class="row g-3">
+                                <h4 class="mb-4 mt-0 text-center">Contact detail</h4>
+                                <!-- First Name -->
+                                                    <!-- Stack the columns on mobile by making one full-width and the other half-width -->
+                                                    <div class="container shadow p-4">
+                                                        <div class="row justify-content-start" style="margin-top: 10px;">
+                                                          <div class="col-4" style="margin-top: 10px;">
+                                                            Lastname: {{user.first_name}}
+                                                          </div>
+                                                          <div class="col-4" style="margin-top: 10px;">
+                                                            Lastname:: {{user.last_name}}
+                                                          </div>
+                                                        </div>
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-4" style="margin-top: 10px;">
+                                                                Username: {{user.username}}
+                                                            </div>
+                                                          <div class="col-4" style="margin-top: 10px;">
+                                                            Phone: {{user.phone}}
+                                                          </div>
+                                                          <div class="col-4" style="margin-top: 10px;">
+                                                            Email: {{user.email}}
+                                                          </div>
+                                                        </div>
+                                                        <div class="row justify-content-end">
+                                
+                                                          <div class="col-4" style="margin-top: 10px;">
+                                                            SubCounty: {{user.sub_county}}
+                                                          </div>
+                                                          <div class="col-4" style="margin-top: 10px;">
+                                                            County: {{user.county}}
+                                                          </div>
+                                                          <div class="col-4" style="margin-top: 10px;">
+                                                            Gender: {{user.gender}}
+                                                          </div>
+                                                        </div>
+                                                        <div class="row justify-content-around">
+                                                        </div>
+                                                        <div class="row justify-content-between mt-5">
+                                                          
+                                                          <div class="col-4" style="margin-top: 10px;">
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                </div>
+                                            </div>
+
+                                <div class="col-md-6">
+                                    <div class="square position-relative display-2 mb-3 mt-5">
+                                        <i class="fas fa-fw fa-user position-absolute top-50 start-50 translate-middle text-secondary"></i>
+                                    </div>
+                                    <div class="bg-secondary-soft px-4 py-5 rounded">
+                                        <div class="row g-3">
+                                            <!-- Profile photo section -->
+                                            <div class="text-center">
+                                                <!-- Image upload icon -->
+                                                <!-- Upload button -->
+                                                <input type="file" id="customFile" name="file" hidden>
+                                                <label class="btn btn-success btn-block" for="customFile">Upload</label>
+                                                <!-- Remove button -->
+                                                <button type="button" class="btn btn-danger btn-block">Remove</button>
+                                                <!-- Note about image size -->
+                                                <!-- <p class="text-muted mt-3 mb-0"><span class="me-1">Note:</span>Minimum size 300px x 300px</p> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <a href="{% url 'updt' user.id %}" class="btn btn-primary mt-3">Update</a>
+
+                                        </main><!-- End Main Content -->
+                                    </div><!-- End Row -->
+                                </div>
+                            </div>
+                            <!-- Row END -->
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- Form END -->
+        </div>
+    </div>
+</div>
+{% endblock content%}

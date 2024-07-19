@@ -1,6 +1,6 @@
 {% extends "blog/base.html"%}
 {%block content%}
-    <h1>Home</h1>
+    <h5>Home</h5>
     <section id="hero" class="hero section">
 
         <img src="assets/img/hero-bg-abstract.jpg" alt="" data-aos="fade-in" class="">
@@ -8,7 +8,7 @@
         <div class="container">
           <div class="row justify-content-center" data-aos="zoom-out">
             <div class="col-xl-7 col-lg-9 text-center">
-              <h1>EWILLS MOBILE CLINIC SERVICES</h1>
+              <h5>EWILLS MOBILE CLINIC SERVICES</h5>
               <p>We are a team of healthcare providers</p>
             </div>
           </div>
@@ -20,7 +20,7 @@
             <div class="col-md-6 col-lg-3" data-aos="zoom-out" data-aos-delay="100">
               <div class="icon-box">
                 <div class="icon"><i class="bi bi-easel"></i></div>
-                <h4 class="title"><a href="{% url 'symptoms'%}">Condition:</a></h4>
+                <h4 class="title"><a href="{% url 'symptoms'%}">State Condition:</a></h4>
                 <p class="description">State conditions</p>
               </div>
             </div><!--End Icon Box -->
@@ -28,7 +28,7 @@
             <div class="col-md-6 col-lg-3" data-aos="zoom-out" data-aos-delay="200">
               <div class="icon-box">
                 <div class="icon"><i class="bi bi-gem"></i></div>
-                <h4 class="title"><a href="">Browse Facilities</a></h4>
+                <h4 class="title"><a href="{%url 'facility_homepage'%}">Browse Facilities</a></h4>
                 <p class="description">Choose a facility near to you.</p>
               </div>
             </div><!--End Icon Box -->
@@ -36,7 +36,7 @@
             <div class="col-md-6 col-lg-3" data-aos="zoom-out" data-aos-delay="300">
               <div class="icon-box">
                 <div class="icon"><i class="bi bi-geo-alt"></i></div>
-                <h4 class="title"><a href="">Booking</a></h4>
+                <h4 class="title"><a href="{%url 'service_fetch'%}">Booking</a></h4>
                 <p class="description">Book for a clinic from facility of your choice.</p>
               </div>
             </div><!--End Icon Box -->
@@ -44,7 +44,7 @@
             <div class="col-md-6 col-lg-3" data-aos="zoom-out" data-aos-delay="400">
               <div class="icon-box">
                 <div class="icon"><i class="bi bi-command"></i></div>
-                <h4 class="title"><a href="">Reports</a></h4>
+                <h4 class="title"><a href="{%url 'reports'%}">Reports</a></h4>
                 <p class="description">View reports and billing</p>
               </div>
             </div><!--End Icon Box -->
@@ -64,10 +64,11 @@
               </a>
               <p>Reach us through:</p>
               <div class="social-links d-flex mt-4">
-                <a href=""><i class="bi bi-twitter-x"></i></a>
-                <a href=""><i class="bi bi-facebook"></i></a>
-                <a href=""><i class="bi bi-instagram"></i></a>
-                <a href=""><i class="bi bi-linkedin"></i></a>
+                <a href=""><i class="fa-brands fa-twitter"></i></a>
+                <a href=""><i class="fa-brands fa-facebook"></i></a>
+                <a href=""><i class="fa-brands fa-instagram"></i></a>
+                <a href=""><i class="fa-brands fa-linkedin"></i></a>
+                <a href=""><i class="fa-brands fa-square-whatsapp"></i></a>
               </div>
             </div>
     
@@ -112,7 +113,7 @@
             <!-- You can delete the links only if you've purchased the pro version. -->
             <!-- Licensing information: https://bootstrapmade.com/license/ -->
             <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-            Designed by <a href="https://bootstrapmade.com/">WILLIS</a>
+            Designed by <a href="">WILLIS</a>
           </div>
         </div>
     

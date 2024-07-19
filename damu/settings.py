@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-i8bbb$arbdj$dec$u-9mnu@t%ql&t6xyhv4&a#m96c%co&=qky
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'clinic']
+
 
 
 # Application definition
@@ -48,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'sasa.middleware.SessionTimeoutMiddleware',
 ]
 
 ROOT_URLCONF = 'damu.urls'
@@ -70,14 +72,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'damu.wsgi.application'
 
+AUTH_USER_MODEL = 'sasa.CustomUser'
+LOGIN_REDIRECT_URL = '/'
+# LOGIN_PATIENT_REDIRECT_URL = 'home'
+# LOGIN_DEFAULT_REDIRECT_URL = 'dashboard'
+LOGIN_URL = 'login'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 3000
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'damu',
+        'USER': 'postgres',
+        'PASSWORD': 'user1234',
+        'HOST': 'localhost',
     }
 }
 
@@ -122,3 +135,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+AUTHENTICATION_BACKENDS = [
+    'sasa.backends.EmailBackend',  # Replace 'your_app' with the name of your app
+    'django.contrib.auth.backends.ModelBackend',
+]

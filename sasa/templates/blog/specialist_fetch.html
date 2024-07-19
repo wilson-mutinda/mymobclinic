@@ -1,0 +1,81 @@
+{% extends "blog/dashboard.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4" style="margin-top: 60px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <h5>Specialists</h5>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                              <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+                              <li class="breadcrumb-item active" aria-current="page">Specialists</li>
+                            </ol>
+                        </nav>
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                              <a class="nav-link" href="{% url 'specialist_fetch' %}">Details</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{% url 'render_specialist_details' %}">Enroll</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{% url 'specialist_classification' %}">Classification</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{% url 'specialist_specification' %}">Specification</a>
+                            </li>
+                        </ul>
+                        <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th scope="col">S.NO:</th>
+                                <th scope="col">Firstname:</th>
+                                <th scope="col">Lastname:</th>
+                                <th scope="col">ID:</th>
+                                <th scope="col">Phone:</th>
+                                <th scope="col">Email:</th>
+                                <th scope="col">Gender:</th>
+                                <th scope="col">County:</th>
+                                <th scope="col">SubCounty:</th>
+                                <th scope="col">Role:</th>
+                                <th scope="col">Action:</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for spec in specs %}
+                              <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ spec.first_name }}</td>
+                                <td>{{ spec.last_name }}</td>
+                                <td>{{ spec.national_identity }}</td>
+                                <td>{{ spec.phone }}</td>
+                                <td>{{ spec.email }}</td>
+                                <td>{{ spec.gender }}</td>
+                                <td>{{ spec.county }}</td>
+                                <td>{{ spec.sub_county }}</td>
+                                <td>{{ spec.role}}</td>
+                                <td>
+                                  <a href="{% url 'updt' spec.id%}" class="btn btn-success">Update</a>
+                                  <form action="{% url 'delete' spec.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                  </form>
+                                </td>
+                              </tr>
+                              {% empty %}
+                              <tr>
+                                <td colspan="10">No specialists found.</td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock content %}

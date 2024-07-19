@@ -1,0 +1,25 @@
+{% extends "blog/dashboard.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Aside Sidebar -->
+        <!-- Main Content -->
+        <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4" style="margin-top: 60px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <h5>Reports</h5>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                              <li class="breadcrumb-item"><a href="{%url 'dashboard'%}">Home</a></li>
+                              <li class="breadcrumb-item active" aria-current="page">Report</li>
+                            </ol>
+                          </nav>
+                    </div>
+                </div>
+            </div>
+        </main><!-- End Main Content -->
+    </div><!-- End Row -->
+</div><!-- End Container Fluid -->
+{% endblock content %}

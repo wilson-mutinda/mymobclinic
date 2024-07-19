@@ -1,0 +1,40 @@
+{% extends "blog/dashboard.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Aside Sidebar -->
+        <!-- Main Content -->
+        <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4" style="margin-top: 60px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <h5>Specialists</h5>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                              <li class="breadcrumb-item"><a href="{%url 'dashboard'%}">Home</a></li>
+                              <li class="breadcrumb-item active" aria-current="page">Specialists</li>
+                            </ol>
+                          </nav>
+                          <ul class="nav nav-tabs">
+                            
+                            <li class="nav-item">
+                              <a class="nav-link" href="{%url 'specialist_fetch'%}">Details</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{%url 'render_specialist_details'%}">Enroll</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{%url 'specialist_classification'%}">Classification</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{%url 'specialist_specification'%}">Specification</a>
+                            </li>
+                          </ul>
+                    </div>
+                </div>
+            </div>
+        </main><!-- End Main Content -->
+    </div><!-- End Row -->
+</div><!-- End Container Fluid -->
+{% endblock content %}

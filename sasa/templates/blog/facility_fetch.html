@@ -1,0 +1,97 @@
+{% extends "blog/dashboard.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Aside Sidebar -->
+        <!-- Main Content -->
+        <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4" style="margin-top: 60px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <h5>Facilities</h5>
+                        <script>
+                          var inactivityTime = function () {
+                              var time;
+                              window.onload = resetTimer;
+                              window.onmousemove = resetTimer;
+                              window.onmousedown = resetTimer; // catches touchscreen presses as well
+                              window.ontouchstart = resetTimer; // catches touchscreen swipes as well
+                              window.ontouchmove = resetTimer; // required by some devices
+                              window.onclick = resetTimer;     // catches touchpad clicks as well
+                              window.onkeypress = resetTimer;  // catches keyboard actions as well
+                  
+                              function logout() {
+                                  window.location.href = "{% url 'logout' %}";
+                              }
+                  
+                              function resetTimer() {
+                                  clearTimeout(time);
+                                  time = setTimeout(logout, 30000);  // time is in milliseconds (60000ms = 1 minute)
+                              }
+                          };
+                  
+                          inactivityTime();
+                      </script>
+                        <ul class="nav nav-tabs">
+                            
+                            <li class="nav-item">
+                              <a class="nav-link" href="{%url 'facility_fetch'%}">Details</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{%url 'enroll_facility'%}">Enroll</a>
+                            </li>
+                          </ul>
+                        <table class="table table-bordered shadow p-4 rounded">
+                            <thead>
+                              <tr>
+                                <th scope="col">S.NO:</th>
+                                <th scope="col">Name:</th>
+                                <th scope="col">W.Number:</th>
+                                <th scope="col">Phone:</th>
+                                <th scope="col">Email:</th>
+                                <th scope="col">Location:</th>
+                                <th scope="col">Address:</th>
+                                <th scope="col">Facility Type:</th>
+                                <th scope="col">Sub_County:</th>
+                                <th scope="col">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for facility in facilities%}
+                              <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{facility.name}}</td>
+                                <td>{{facility.worknumber}}</td>
+                                <td>{{facility.phone}}</td>
+                                <td>{{facility.email}}</td>
+                                <td>{{facility.location}}</td>
+                                <td>{{facility.address}}</td>
+                                <td>{{facility.facility_type}}</td>
+                                <td>{{facility.subcounty}}</td>
+                                <td>
+                                  <div class="row justify-content-between">
+                                    <div class="col">
+                                      <a href="{% url 'update' facility.id %}" class="btn btn-sm btn-success">Update</a>
+                                    </div>
+                                    <div class="col">
+                                      <form action="{% url 'delt' facility.id %}" method="post" style="display:inline;">
+                                          {% csrf_token %}
+                                          <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                              {%empty%}
+                              <td>Empty!</td>
+                              {% endfor%}
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div>
+        </main><!-- End Main Content -->
+    </div><!-- End Row -->
+</div><!-- End Container Fluid -->
+{% endblock content %}

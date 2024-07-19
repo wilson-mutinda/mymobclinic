@@ -1,0 +1,28 @@
+{% extends "blog/base.html"%}
+{% block content%}
+<table class="table table-bordered container shadow-sm">
+  <h4 style="text-align: center;" class="m-3">Facility</h4>
+    <thead>
+      <tr>
+        <th scope="col">S.NO:</th>
+        <th scope="col">Name:</th>
+        <th scope="col">Location:</th>
+        <th scope="col">Address:</th>
+        <th scope="col">Type:</th>
+        <th scope="col">SubCounty:</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for facility in facilities %}
+        <tr>
+            <td>{{ forloop.counter}}</td>
+            <td>{{ facility.name}}</td>
+            <td>{{ facility.location}}</td>
+            <td>{{ facility.address }}</td>
+            <td>{{ facility.facility_type}}</td>
+            <td>{{ facility.subcounty}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+{% endblock content%}
