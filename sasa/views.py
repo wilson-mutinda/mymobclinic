@@ -9,48 +9,114 @@ from django.http import JsonResponse, HttpResponse
 
 # Create your views here.
 @login_required
+# def symptoms_step1(request):
+#     if request.method == 'POST':
+#         user = request.user
+#         selected_symptoms = {}
+
+#         for bodysystem in Bodysystem.objects.all():
+#             system_name_slug = bodysystem.system_name.replace(" ", "_").lower()
+#             symptoms = request.POST.getlist(f"{system_name_slug}_symptoms")
+#             selected_symptoms[system_name_slug] = symptoms
+
+#             # Print debug information
+#             print(f"Selected symptoms for {bodysystem.system_name}: {symptoms}")
+
+#             # Store selected symptoms in session
+#             request.session[f"{system_name_slug}_selected_symptoms"] = symptoms
+
+#             # Save the selected symptoms with null severity
+#             for symptom_name in symptoms:
+#                 try:
+#                     system_discomfort = Systemdiscomfort.objects.get(discomfort_name=symptom_name, body_system=bodysystem)
+#                     Patientdiagnosis.objects.create(
+#                         patient=user,
+#                         system_discomfort=system_discomfort,
+#                         severity='null'  # Default value if severity is not provided
+#                     )
+#                 except Systemdiscomfort.DoesNotExist:
+#                     print(f"Discomfort not found: {symptom_name}")  # Debugging
+#                     continue  # Skip if the symptom does not exist in the database
+
+#         return redirect('symptoms_step2')
+
+#     bodysystems = Bodysystem.objects.all()
+#     return render(request, 'blog/symptoms_step1.html', {'bodysystems': bodysystems})
+
+# def symptoms_step2(request):
+#     user = request.user
+
+#     if request.method == 'POST':
+#         for bodysystem in Bodysystem.objects.all():
+#             system_name_slug = bodysystem.system_name.replace(" ", "_").lower()
+#             selected_symptoms = request.session.get(f"{system_name_slug}_selected_symptoms", [])
+
+#             for symptom_name in selected_symptoms:
+#                 try:
+#                     system_discomfort = Systemdiscomfort.objects.get(discomfort_name=symptom_name, body_system=bodysystem)
+#                     severity = request.POST.get(f"{system_name_slug}_{system_discomfort.discomfort_name.replace(' ', '_').lower()}_severity")
+                    
+#                     diagnosis, created = Patientdiagnosis.objects.update_or_create(
+#                         patient=user,
+#                         system_discomfort=system_discomfort,
+#                         defaults={'severity': severity}
+#                     )
+                    
+#                     # Debugging
+#                     if created:
+#                         print(f"Created new diagnosis for {symptom_name} with severity {severity}")
+#                     else:
+#                         print(f"Updated diagnosis for {symptom_name} with severity {severity}")
+
+#                 except Systemdiscomfort.DoesNotExist:
+#                     print(f"Discomfort not found: {symptom_name}")  # Debugging
+#                     continue  # Skip if the symptom does not exist in the database
+
+#         return redirect('symptoms')  # Redirect to a relevant page after submission
+
+#     bodysystems = Bodysystem.objects.all()
+#     return render(request, 'blog/symptoms_step2.html', {'bodysystems': bodysystems})
+
+
+@login_required
 def index(request):
     return render(request, "blog/home.html")
 
 @login_required
 def symptoms(request):
-    if request.method == "POST":
-        user = request.user  # Ensure the user is authenticated
+    if request.method == 'POST':
+        user = request.user
+        selected_symptoms = {}
 
         for bodysystem in Bodysystem.objects.all():
             system_name_slug = bodysystem.system_name.replace(" ", "_").lower()
-            selected_symptoms = request.POST.getlist(f"{system_name_slug}_symptoms")
+            symptoms = request.POST.getlist(f"{system_name_slug}_symptoms")
+            selected_symptoms[system_name_slug] = symptoms
 
-            print(f"Selected symptoms for {bodysystem.system_name}: {selected_symptoms}")  # Debugging
+            # Print debug information
+            print(f"Selected symptoms for {bodysystem.system_name}: {symptoms}")
 
-            for symptom_name in selected_symptoms:
+            # Store selected symptoms in session
+            request.session[f"{system_name_slug}_selected_symptoms"] = symptoms
+
+            # Save the selected symptoms with null severity
+            for symptom_name in symptoms:
                 try:
                     system_discomfort = Systemdiscomfort.objects.get(discomfort_name=symptom_name, body_system=bodysystem)
+                    Patientdiagnosis.objects.create(
+                        patient=user,
+                        system_discomfort=system_discomfort,
+                        severity='null'  # Default value if severity is not provided
+                    )
                 except Systemdiscomfort.DoesNotExist:
                     print(f"Discomfort not found: {symptom_name}")  # Debugging
-                    continue  # Skip if the symptom doesn't exist
+                    continue  # Skip if the symptom does not exist in the database
 
-                severity = request.POST.get(f"{system_name_slug}_{symptom_name}_severity")
-                print(f"Severity for {symptom_name}: {severity}")  # Debugging
+        # Provide user feedback or redirect to a confirmation page
+        return redirect('symptoms')  # Adjust to your confirmation page or success message
 
-                # Validate severity
-                if not severity:
-                    severity = 'null'  # Default value if severity is not provided
-
-                # Print debug information
-                print(f"Creating Patientdiagnosis with: User: {user}, System Discomfort: {system_discomfort}, Severity: {severity}")
-
-                # Save to the database
-                Patientdiagnosis.objects.create(
-                    patient=user,
-                    system_discomfort=system_discomfort,
-                    severity=severity
-                )
-
-        return redirect("symptoms")
-
-    bodysystems = Bodysystem.objects.prefetch_related('systemdiscomfort_set').all()
-    return render(request, "blog/symptoms.html", {'bodysystems': bodysystems})
+    bodysystems = Bodysystem.objects.all()
+    return render(request, 'blog/symptoms.html', {'bodysystems': bodysystems})
 
 def facility(request):
     return render(request, "blog/facility.html")    

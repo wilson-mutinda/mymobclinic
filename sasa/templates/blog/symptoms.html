@@ -7,64 +7,76 @@
 <h5>Symptoms</h5>
 
 <h5 class="text-center fs-10">EWILLIS</h5>
-<form id="symptomForms" action="{% url 'symptoms' %}" method="POST">
-    {% csrf_token %}
-    <!-- Step indicators -->
-    <div class="form-header d-flex mb-6">
-        <span class="stepIndicator">Body System:</span>
-        <span class="stepIndicator">Severity:</span>
-    </div>
 
-    <!-- Step one -->
-    <div class="step">
-        <p class="text-center mb-6">Possible Discomforts:</p>
-        <div class="mb-3">
-            {% for bodysystem in bodysystems %}
-                <label><strong>{{ bodysystem.system_name }}</strong></label>
-                <select class="form-control body-system-select" name="{{ bodysystem.system_name|slugify }}_symptoms" multiple>
-                    <option value="" disabled>Select Symptoms</option>
-                    {% for discomfort in bodysystem.systemdiscomfort_set.all %}
-                        <option value="{{ discomfort.discomfort_name }}">{{ discomfort.discomfort_name }}</option>
-                    {% endfor %}
-                </select>
-            {% endfor %}
+<!-- Step one form -->
+<div class="container">
+    <form id="symptomFormStep1" action="{% url 'symptoms' %}" method="POST">
+        {% csrf_token %}
+        <!-- Step indicators -->
+        <div class="form-header d-flex mb-6">
+            <span class="stepIndicator">Body System:</span>
+            <span class="stepIndicator">Severity:</span>
         </div>
-    </div>
 
-    <!-- Step two -->
-    <!-- <div class="step">
-        <p class="text-center mb-4">Severity:</p>
-        {% for bodysystem in bodysystems %}
+        <!-- Step one -->
+        <div class="step">
+            <p class="text-center mb-6">Possible Discomforts:</p>
             <div class="mb-3">
-                <label for="{{ bodysystem.system_name|slugify }}"><strong>{{ bodysystem.system_name }}</strong></label>
-                <div class="{{ bodysystem.system_name|slugify }} container">
-                    <div class="row mb-3">
+                {% for bodysystem in bodysystems %}
+                    <label><strong>{{ bodysystem.system_name }}</strong></label>
+                    <select class="form-control body-system-select" name="{{ bodysystem.system_name|slugify }}_symptoms" multiple>
+                        <option value="" disabled>Select Symptoms</option>
                         {% for discomfort in bodysystem.systemdiscomfort_set.all %}
-                            <div class="col-md-6 mt-2">
-                                <label for="{{ discomfort.discomfort_name|slugify }}">{{ discomfort.discomfort_name }}</label>
-                            </div>
-                            <div class="col-md-6 mt-2">
-                                <select class="form-select" id="{{ discomfort.discomfort_name|slugify }}Select" name="{{ bodysystem.system_name|slugify }}_{{ discomfort.discomfort_name|slugify }}_severity">
-                                    <option value="mild">Mild</option>
-                                    <option value="moderate">Moderate</option>
-                                    <option value="severe">Severe</option>
-                                </select>
-                            </div>
+                            <option value="{{ discomfort.discomfort_name }}">{{ discomfort.discomfort_name }}</option>
                         {% endfor %}
+                    </select>
+                {% endfor %}
+            </div>            
+        </div>
+
+        <!-- Previous / Next buttons -->
+        <div class="form-footer d-flex">
+            <button type="button" class="btn btn-primary" id="nextBtnStep1" onclick="nextPrevStep1(1)">Next</button>
+        </div>
+    </form>
+
+    <!-- Step two form -->
+    <form id="symptomFormStep2" action="{% url 'symptoms' %}" method="POST" style="display:none;">
+        {% csrf_token %}
+        <!-- Step two -->
+        <div class="step">
+            <p class="text-center mb-4">Severity:</p>
+            {% for bodysystem in bodysystems %}
+                <div class="mb-3">
+                    <label for="{{ bodysystem.system_name|slugify }}"><strong>{{ bodysystem.system_name }}</strong></label>
+                    <div class="{{ bodysystem.system_name|slugify }} container">
+                        <div class="row mb-3">
+                            {% for discomfort in bodysystem.systemdiscomfort_set.all %}
+                                <div class="col-md-6 mt-2">
+                                    <label for="{{ discomfort.discomfort_name|slugify }}">{{ discomfort.discomfort_name }}</label>
+                                </div>
+                                <div class="col-md-6 mt-2">
+                                    <select class="form-select" id="{{ discomfort.discomfort_name|slugify }}Select" name="{{ bodysystem.system_name|slugify }}_{{ discomfort.discomfort_name|slugify }}_severity">
+                                        <option value="mild">Mild</option>
+                                        <option value="moderate">Moderate</option>
+                                        <option value="severe">Severe</option>
+                                    </select>
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div> -->
+            {% endfor %}
+        </div>
 
-    <!-- Previous / Next buttons -->
-    <div class="form-footer d-flex">
-        <button type="button" class="btn btn-primary" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-        <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextPrev(1)">Next</button>
-    </div>
-</form>
+        <!-- Previous / Next buttons -->
+        <div class="form-footer d-flex">
+            <button type="button" class="btn btn-primary mt-2" id="prevBtnStep2" onclick="submitFormStep1()">Previous</button>
+            <button type="submit" class="btn btn-primary mt-2" id="nextBtnStep2">Submit</button>
+        </div>
+    </form>
+</div>
 
-<!--  -->
 {% endblock content %}
 
 {% block extra_css %}
@@ -73,4 +85,13 @@
 
 {% block extra_script %}
 <!-- Additional JS scripts if needed -->
+<script src="{% static 'path/to/your/steppers.js' %}">
+    $(document).ready(function() {
+      $('.body-system-select').select2({
+          tags: true,
+          closeOnSelect: false,
+          placeholder: 'Select Symptoms',
+      });
+  });
+</script>
 {% endblock extra_script %}

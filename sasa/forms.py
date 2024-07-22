@@ -21,6 +21,16 @@ class PatientdiagnosisForm(forms.ModelForm):
     class Meta:
         model = Patientdiagnosis
         fields = ['patient' , 'system_discomfort', 'severity']
+        
+class PatientdiagnosisForm(forms.ModelForm):
+    class Meta:
+        model = Patientdiagnosis
+        fields = ['patient' , 'system_discomfort', 'severity']
+
+class PatientdiagnosisForm(forms.ModelForm):
+    class Meta:
+        model = Patientdiagnosis
+        fields = ['patient' , 'system_discomfort', 'severity']
 
 class SystemdiscomfortForm(forms.ModelForm):
     class Meta:
