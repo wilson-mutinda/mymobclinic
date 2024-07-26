@@ -1,0 +1,52 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %}Severity{% endblock %}
+
+{% block content %}
+<h5 class="p-4">Register symptoms</h5>
+<h5 class="text-center fs-10">EWILLIS</h5>
+
+<div class="container">
+    <form id="symptomFormStep2" action="{% url 'severity' %}" method="POST">
+        {% csrf_token %}
+        <div class="step">
+            <p class="text-center mb-4">Severity:</p>
+            {% for bodysystem, diagnoses in bodysystem_diagnoses.items %}
+                <div class="mb-3">
+                    <label for="{{ bodysystem.system_name|slugify }}"><strong>{{ bodysystem.system_name }}</strong></label>
+                    <div class="{{ bodysystem.system_name|slugify }} container">
+                        <div class="row mb-3">
+                            {% for diagnosis in diagnoses %}
+                                <div class="col-md-6 mt-2">
+                                    <label for="{{ diagnosis.system_discomfort.discomfort_name|slugify }}">{{ diagnosis.system_discomfort.discomfort_name }}</label>
+                                </div>
+                                <div class="col-md-6 mt-2">
+                                    <select class="form-select" id="{{ diagnosis.system_discomfort.discomfort_name|slugify }}Select" name="{{ bodysystem.system_name|slugify }}_{{ diagnosis.system_discomfort.discomfort_name|slugify }}_severity">
+                                        <option value="mild">Mild</option>
+                                        <option value="moderate">Moderate</option>
+                                        <option value="severe">Severe</option>
+                                    </select>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="form-footer d-flex">
+            <!-- <button type="button" class="btn btn-primary mt-2" id="prevBtnStep2">Previous</button> -->
+            <button type="submit" class="btn btn-primary mt-2" id="nextBtnStep2">Next</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}
+
+{% block extra_css %}
+<!-- Additional CSS files if needed -->
+{% endblock extra_css %}
+
+{% block extra_script %}
+<!-- Additional JS scripts if needed -->
+{% endblock extra_script %}

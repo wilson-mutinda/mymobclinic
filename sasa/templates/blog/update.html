@@ -8,7 +8,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
-                        <h5>{%if form.instance.id%}Update{%else%}Enroll{% endif%} Facility</h5>
+                        <h5>{%if form.instance.id%}Update {%else%}Enroll {% endif%} Facility</h5>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
@@ -16,15 +16,15 @@
                                 <li class="breadcrumb-item active" aria-current="page">{%if form.instance.id%}Update{%else%}Enroll{%endif%}</li>
                             </ol>
                         </nav>
-                        <section class="h-100 bg-dark">
-                            <div class="container py-5 h-100">
+                        <section class="h-100 shadow">
+                            <div class="container py-2 h-100">
                                 <div class="row d-flex justify-content-center align-items-center h-100">
                                     <div class="col">
-                                        <div class="card card-registration my-4">
+                                        <div class="card card-registration my-1">
                                             <div class="row g-0">
                                                 <div class="col-xl-12">
                                                     <div class="card-body p-md-5 text-black">
-                                                        <h3 class="mb-5 text-uppercase">{%if form.instance.id%}Update{%else%}Enroll{%endif%}Facility Form</h3>
+                                                        <h5 class="mb-5 text-uppercase">{%if form.instance.id%}Update {%else%}Enroll {%endif%}Facility Form</h5>
 
                                                         <form method="post" action="{%if form.instance.id%}{% url 'update' form.instance.id%}{%else%}{%url 'enroll_facility'%}{%endif%}">
                                                             {% csrf_token %}

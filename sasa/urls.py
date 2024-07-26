@@ -5,7 +5,7 @@ from . import views
 urlpatterns=[
     path('render_specialist_details', views.render_specialist_details, name='render_specialist_details'),
     path('', views.index, name='home'),
-    path('symptoms', views.symptoms, name='symptoms'),
+    # path('symptoms', views.symptoms, name='symptoms'),
     path('facility', views.facility, name='facility'),
     path('reports', views.reports, name='reports'),
     path('specialist', views.specialist, name='specialist'),
@@ -41,6 +41,7 @@ urlpatterns=[
     path('ailment_body_system', views.ailment_body_system, name='ailment_body_system'),
     path('ailment_system_discomfort', views.ailment_system_discomfort, name='ailment_system_discomfort'),
     path('fetch_symptoms', views.fetch_symptoms, name='fetch_symptoms'),
-    # path('symptoms_step1/', views.symptoms_step1, name='symptoms_step1'),
-    # path('symptoms_step2/', views.symptoms_step2, name='symptoms_step2'),
+    path('symptoms_step1/', views.symptoms_step1, name='symptoms_step1'),
+    path('severity_page/', views.severity, name='severity'),
+    path('fetch_severity_and_facility', views.fetch_severity_and_facility, name='fetch_severity_and_facility'),
 ]

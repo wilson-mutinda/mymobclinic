@@ -1,0 +1,57 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %}Severity{% endblock %}
+
+{% block content %}
+<h5 class="p-4">Review Symptoms and Severity</h5>
+<h5 class="text-center fs-10">EWILLIS</h5>
+
+<div class="container">
+    <form id="facilityForm" action="{% url 'fetch_severity_and_facility' %}" method="POST">
+        {% csrf_token %}
+        <div class="step">
+            <p class="text-center mb-4">Severity:</p>
+            {% for bodysystem, diagnoses in bodysystem_diagnoses.items %}
+                <div class="mb-3">
+                    <label for="{{ bodysystem.system_name|slugify }}"><strong>{{ bodysystem.system_name }}</strong></label>
+                    <div class="{{ bodysystem.system_name|slugify }} container">
+                        <!-- <div class="row mb-3"> -->
+                            {% for diagnosis in diagnoses %}
+                                <div class="col-md-6 mt-2">
+                                    <label for="{{ diagnosis.system_discomfort.discomfort_name|slugify }}"><b>Discomfort:</b> {{ diagnosis.system_discomfort.discomfort_name }}</label>
+                                </div>
+                                <div class="col-md-6 mt-2">
+                                    <p><b>Severity: </b>{{ diagnosis.severity }}</p>
+                                </div>
+                            {% endfor %}
+                        <!-- </div> -->
+                        <!-- <div class="form-group mt-4">
+                            <label for="facilitySelect"><strong>Select Facility:</strong></label>
+                            <select class="form-select" id="facilitySelect" name="facility">
+                                {% for facility in facilities %}
+                                    <option value="{{ facility.id }}">{{ facility.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div> -->
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        
+
+        <div class="form-footer d-flex mt-4">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}
+
+{% block extra_css %}
+<!-- Additional CSS files if needed -->
+{% endblock extra_css %}
+
+{% block extra_script %}
+<!-- Additional JS scripts if needed -->
+{% endblock extra_script %}
