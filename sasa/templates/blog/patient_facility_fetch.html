@@ -1,0 +1,53 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<table class="table table-bordered container shadow-sm">
+  <h4 style="text-align: center;" class="m-3">Facility Booking</h4>
+    <thead>
+      <tr>
+        <th scope="col">S.NO:</th>
+        <th scope="col">Name:</th>
+        <th scope="col">Address:</th>
+        <th scope="col">Type:</th>
+        <th scope="col">SubCounty:</th>
+        <th scope="col">Services</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for facility in facilities %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ facility.name }}</td>
+            <td>{{ facility.address }}</td>
+            <td>{{ facility.facility_type }}</td>
+            <td>{{ facility.subcounty }}</td>
+            <td style="margin: top -5px;">
+                {% for bodysystem in bodysystems %}
+                    {{ bodysystem.system_name }}
+                    {% for service in facility.services.all %}
+                        {% if service.bodysystem == bodysystem %}
+                            {{ service.service_name }}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </td>
+            <td>
+                <a href="{% url 'create_appeal'%}" class="btn btn-info">Appeal</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+{% endblock content %}
+<style>
+    .bodysystem-container {
+      margin-top: 1px; /* Adjusted margin */
+    }
+    .bodysystem-name {
+      font-weight: bold;
+    }
+    .service-name {
+      margin-left: 10px; /* Smaller indentation for services */
+    }
+  </style>
+  

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate
-from .models import SpecialistClassification, CustomUser, Patientdiagnosis, Systemdiscomfort, SpecialistSpecification,Bodysystem, Systemdiscomfort,  County, SubCounty, Facility, ServiceCategory, Service, FacilityService
+from .models import SpecialistClassification, Appeal, CustomUser, Patientdiagnosis, Systemdiscomfort, SpecialistSpecification,Bodysystem, Systemdiscomfort,  County, SubCounty, Facility, ServiceCategory, Service, FacilityService
 
 class SpecialistClassificationForm(forms.ModelForm):
     class Meta:
@@ -37,48 +37,6 @@ class SystemdiscomfortForm(forms.ModelForm):
         model = Systemdiscomfort
         fields = ['discomfort_name', 'body_system']
 
-# class SystemdiscomfortForm(forms.ModelForm):
-#     cardiovascular_symptoms = forms.ModelMultipleChoiceField(
-#         queryset=Bodysystem.objects.filter(body_system__system_name='Cardiovascular'),
-#         widget=forms.SelectMultiple(attrs={'class': 'form-control', 'id': 'cardiovascularSelect'}),
-#         required=False
-#     )
-#     respiratory_symptoms = forms.ModelMultipleChoiceField(
-#         queryset=Bodysystem.objects.filter(body_system__system_name='Respiratory'),
-#         widget=forms.SelectMultiple(attrs={'class': 'form-control', 'id': 'respiratorySelect'}),
-#         required=False
-#     )
-#     gastrointestinal_symptoms = forms.ModelMultipleChoiceField(
-#         queryset=Bodysystem.objects.filter(body_system__system_name='Gastrointestinal'),
-#         widget=forms.SelectMultiple(attrs={'class': 'form-control', 'id': 'gastrointestinalSelect'}),
-#         required=False
-#     )
-#     neurological_symptoms = forms.ModelMultipleChoiceField(
-#         queryset=Bodysystem.objects.filter(body_system__system_name='Neurological'),
-#         widget=forms.SelectMultiple(attrs={'class': 'form-control', 'id': 'neurologicalSelect'}),
-#         required=False
-#     )
-#     musculoskeletal_symptoms = forms.ModelMultipleChoiceField(
-#         queryset=Bodysystem.objects.filter(body_system__system_name='Musculoskeletal'),
-#         widget=forms.SelectMultiple(attrs={'class': 'form-control', 'id': 'musculoskeletalSelect'}),
-#         required=False
-#     )
-#     dermatological_symptoms = forms.ModelMultipleChoiceField(
-#         queryset=Bodysystem.objects.filter(body_system__system_name='Dermatological'),
-#         widget=forms.SelectMultiple(attrs={'class': 'form-control', 'id': 'dermatologicalSelect'}),
-#         required=False
-#     )
-#     psychiatric_symptoms = forms.ModelMultipleChoiceField(
-#         queryset=Bodysystem.objects.filter(body_system__system_name='Psychiatric'),
-#         widget=forms.SelectMultiple(attrs={'class': 'form-control', 'id': 'psychiatricSelect'}),
-#         required=False
-#     )
-
-#     class Meta:
-#         model = Systemdiscomfort
-#         fields = ['discomfort_name', 'body_system', 'cardiovascular_symptoms', 'respiratory_symptoms',
-#                   'gastrointestinal_symptoms', 'neurological_symptoms', 'musculoskeletal_symptoms', 
-#                   'dermatological_symptoms', 'psychiatric_symptoms']        
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
@@ -156,3 +114,4 @@ class LoginForm(forms.Form):
                 raise forms.ValidationError("Invalid email or password")
 
         return cleaned_data
+    

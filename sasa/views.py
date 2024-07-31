@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SpecialistClassificationForm, SystemdiscomfortForm, BodysystemForm, SpecialistSpecificationForm, UserForm, FacilityForm, ServiceCategoryForm,ServiceForm, CountyForm, SubCountyForm, LoginForm
-from .models import SpecialistClassification,Bodysystem,Systemdiscomfort,Patientdiagnosis, Symptom, ServiceCategory, County, SubCounty, Facility,Service, CustomUser, SpecialistSpecification
+from .models import SpecialistClassification,Appeal,Appeal_Assignment, Bodysystem,Systemdiscomfort,Patientdiagnosis, Symptom, ServiceCategory, County, SubCounty, Facility,Service, CustomUser, SpecialistSpecification
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from django.utils.text import slugify
 from django.conf import settings
 from django.http import JsonResponse, HttpResponse
@@ -39,8 +40,6 @@ def symptoms_step1(request):
 
     bodysystems = Bodysystem.objects.all()
     return render(request, 'blog/symptoms.html', {'bodysystems': bodysystems})
-
-
 
 @login_required
 def severity(request):
@@ -109,9 +108,12 @@ def fetch_severity_and_facility(request):
 
     # Fetch all facilities
     facilities = Facility.objects.all()
+    bodysystems=Bodysystem.objects.all()
+
 
     context = {
         'bodysystem_diagnoses': bodysystem_diagnoses,
+        'bodysystems': bodysystems,
         'facilities': facilities
     }
 
@@ -143,7 +145,23 @@ def logout(request):
 
 @login_required
 def dashboard(request):
-    return render(request, "blog/dashboard.html")
+    appeals = Appeal.objects.all().select_related('patient_id', 'facility_id')
+    patient_ids = [appeal.patient_id.id for appeal in appeals]
+    diagnoses = Patientdiagnosis.objects.filter(patient_id__in=patient_ids).select_related('system_discomfort__body_system')
+    patient_diagnoses = {}
+    for diagnosis in diagnoses:
+        if diagnosis.patient_id not in patient_diagnoses:
+            patient_diagnoses[diagnosis.patient_id] = []
+        patient_diagnoses[diagnosis.patient_id].append(diagnosis)
+    for appeal in appeals:
+        appeal.diagnoses = patient_diagnoses.get(appeal.patient_id.id, [])
+    specialists = CustomUser.objects.filter(role='doctor')
+    
+    context = {
+        'appeals': appeals,
+        'specialists': specialists,
+    }
+    return render(request, "blog/dashboard_appeal_fetch.html", context)
 
 def enroll_facility(request):
     if request.method=="POST":
@@ -456,3 +474,70 @@ def fetch_symptoms(request):
         symptoms = Systemdiscomfort.objects.filter(body_system_id=body_system_id).values('id', 'discomfort_name')
         return JsonResponse(list(symptoms), safe=False)
     return JsonResponse([], safe=False)
+
+def patient_facility_fetch(request):
+    facilities=Facility.objects.all()
+    bodysystems=Bodysystem.objects.all()
+    context={
+        'facilities': facilities,
+        'bodysystems':bodysystems
+    }
+    return render(request, "blog/patient_facility_fetch.html", context)
+
+@login_required
+def create_appeal(request, facility_id):
+    facility = Facility.objects.get(id=facility_id)
+    user = request.user
+
+    Appeal.objects.create(
+        patient_id=user,
+        facility_id=facility,
+        appeal_date=timezone.now(),
+        appeal_status='pending',
+        payment_status='null'
+    )
+
+    return redirect('symptoms_step1')
+
+def dashboard_appeal_fetch(request):
+    appeals = Appeal.objects.all().select_related('patient_id', 'facility_id')
+    patient_ids = [appeal.patient_id.id for appeal in appeals]
+    diagnoses = Patientdiagnosis.objects.filter(patient_id__in=patient_ids).select_related('system_discomfort__body_system')
+    patient_diagnoses = {}
+    for diagnosis in diagnoses:
+        if diagnosis.patient_id not in patient_diagnoses:
+            patient_diagnoses[diagnosis.patient_id] = []
+        patient_diagnoses[diagnosis.patient_id].append(diagnosis)
+    for appeal in appeals:
+        appeal.diagnoses = patient_diagnoses.get(appeal.patient_id.id, [])
+    specialists = CustomUser.objects.filter(role='doctor')
+    
+    context = {
+        'appeals': appeals,
+        'specialists': specialists,
+    }
+    return render(request, "blog/dashboard_appeal_fetch.html", context)
+
+
+def assign_appeal(request, appeal_id):
+    appeal = get_object_or_404(Appeal, id=appeal_id)
+    specialist_id = request.POST.get('specialist')
+    specialist = get_object_or_404(CustomUser, id=specialist_id)    
+    Appeal_Assignment.objects.create(
+        patient=appeal.patient_id,
+        appeal=appeal,
+        specialist=specialist
+    )
+    appeal.appeal_status = 'assigned'
+    appeal.save()
+    
+    return redirect('dashboard_appeal_fetch')
+
+@login_required
+def facility_book_page(request):
+    user=request.user
+    appeals = Appeal.objects.filter(patient_id=user)    
+    context = {
+        'appeals': appeals,
+    }
+    return render(request, "blog/facility_book_page.html", context)

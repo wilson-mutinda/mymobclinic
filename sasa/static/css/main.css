@@ -2162,3 +2162,14 @@ body {
 }
 
 
+    .bodysystem-container {
+        margin-top: 1px; /* Adjusted margin */
+    }
+    .bodysystem-name {
+        font-weight: bold;
+    }
+    .service-name {
+        margin-left: 10px; /* Smaller indentation for services */
+    }
+
+    

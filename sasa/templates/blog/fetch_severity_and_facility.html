@@ -1,7 +1,7 @@
 {% extends "blog/base.html" %}
 {% load static %}
 
-{% block title %}Severity{% endblock %}
+{% block title %}Severity and Facility Booking{% endblock %}
 
 {% block content %}
 <h5 class="p-4">Review Symptoms and Severity</h5>
@@ -10,36 +10,76 @@
 <div class="container">
     <form id="facilityForm" action="{% url 'fetch_severity_and_facility' %}" method="POST">
         {% csrf_token %}
-        <div class="step">
-            <p class="text-center mb-4">Severity:</p>
-            {% for bodysystem, diagnoses in bodysystem_diagnoses.items %}
-                <div class="mb-3">
-                    <label for="{{ bodysystem.system_name|slugify }}"><strong>{{ bodysystem.system_name }}</strong></label>
-                    <div class="{{ bodysystem.system_name|slugify }} container">
-                        <!-- <div class="row mb-3"> -->
-                            {% for diagnosis in diagnoses %}
-                                <div class="col-md-6 mt-2">
-                                    <label for="{{ diagnosis.system_discomfort.discomfort_name|slugify }}"><b>Discomfort:</b> {{ diagnosis.system_discomfort.discomfort_name }}</label>
-                                </div>
-                                <div class="col-md-6 mt-2">
-                                    <p><b>Severity: </b>{{ diagnosis.severity }}</p>
-                                </div>
-                            {% endfor %}
-                        <!-- </div> -->
-                        <!-- <div class="form-group mt-4">
-                            <label for="facilitySelect"><strong>Select Facility:</strong></label>
-                            <select class="form-select" id="facilitySelect" name="facility">
-                                {% for facility in facilities %}
-                                    <option value="{{ facility.id }}">{{ facility.name }}</option>
+        <div class="row">
+            <!-- Left column: Severity Review -->
+            <div class="col-sm-6">
+                <div class="step">
+                    <p class="text-center mb-4">Severity:</p>
+                    {% for bodysystem, diagnoses in bodysystem_diagnoses.items %}
+                        <div class="mb-3">
+                            <label for="{{ bodysystem.system_name|slugify }}"><strong>{{ bodysystem.system_name }}</strong></label>
+                            <div class="{{ bodysystem.system_name|slugify }} container">
+                                {% for diagnosis in diagnoses %}
+                                    <div class="mt-2">
+                                        <label for="{{ diagnosis.system_discomfort.discomfort_name|slugify }}"><b>Discomfort:</b> {{ diagnosis.system_discomfort.discomfort_name }}</label>
+                                        <p><b>Severity: </b>{{ diagnosis.severity }}</p>
+                                    </div>
                                 {% endfor %}
-                            </select>
-                        </div> -->
-                    </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
+            </div>
 
-        
+            <!-- Right column: Facility Booking -->
+            <div class="col-sm-6">
+                <table class="table table-bordered container shadow-sm">
+                    <h4 class="text-center m-3">Facility Booking</h4>
+                    <thead>
+                        <tr>
+                            <th scope="col">S.NO:</th>
+                            <th scope="col">Name:</th>
+                            <th scope="col">Address:</th>
+                            <th scope="col">Type:</th>
+                            <th scope="col">SubCounty:</th>
+                            <th scope="col">Services</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for facility in facilities %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ facility.name }}</td>
+                            <td>{{ facility.address }}</td>
+                            <td>{{ facility.facility_type }}</td>
+                            <td>{{ facility.subcounty }}</td>
+                            <td style="margin-top: 1px;">
+                                <ul style="list-style-type: disc; padding-left: 20px; margin: 0;">
+                                    {% for bodysystem in bodysystems %}
+                                        <li style="margin-bottom: 10px;">
+                                            {{ bodysystem.system_name }}
+                                            <ul style="list-style-type: circle; padding-left: 20px; margin: 0;">
+                                                {% for service in facility.services.all %}
+                                                    {% if service.bodysystem == bodysystem %}
+                                                        <li>{{ service.service_name }}</li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>
+                                <!-- Use the URL pattern with the facility ID -->
+                                <a href="{% url 'create_appeal' facility.id %}" class="btn btn-info">Appeal</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <div class="form-footer d-flex mt-4">
             <button type="submit" class="btn btn-primary">Submit</button>

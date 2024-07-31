@@ -1,0 +1,104 @@
+{% extends "blog/dashboard.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Main Content -->
+        <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4" style="margin-top: 60px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <h5 style="text-align: center;">Appeal List</h5>
+                        <div class="container">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">S.NO:</th>
+                                        <th scope="col">Patient:</th>
+                                        <th scope="col">Facility:</th>
+                                        <th scope="col">Appeal Date:</th>
+                                        <th scope="col">Appeal Status:</th>
+                                        <th scope="col">Payment Status:</th>
+                                        <th scope="col">Action:</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for appeal in appeals %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ appeal.patient_id.username }}</td>
+                                            <td>{{ appeal.facility_id.name }}</td>
+                                            <td>{{ appeal.appeal_date }}</td>
+                                            <td>{{ appeal.appeal_status }}</td>
+                                            <td>{{ appeal.payment_status }}</td>
+                                            <td>
+                                                {% if appeal.appeal_status == 'assigned' and appeal.payment_status != 'cleared' %}
+                                                    <button type="button" class="btn btn-secondary btn-sm" disabled>Assigned</button>
+                                                {% elif appeal.payment_status == 'cleared' %}
+                                                    <a href="#" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#attendToModal" disabled>Cleared</a>
+                                                {% else %}
+                                                    <a href="#" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#attendToModal">Attend to</a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="attendToModal{{ appeal.id }}" tabindex="-1" aria-labelledby="attendToModalLabel{{ appeal.id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="attendToModalLabel{{ appeal.id }}" style="text-align: center;">Info Modal</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="container-fluid">
+                                                            <div class="row">
+                                                                <div class="col-md-4">Patient: {{ appeal.patient_id.username }}</div>
+                                                                <div class="col-md-4">Address: {{ appeal.facility_id.address }}</div>
+                                                                <div class="col-md-4">Appeal Time: {{ appeal.appeal_date }}</div>
+                                                            </div>
+                                                            <div class="row" style="margin-top: 10px;">
+                                                                <div class="col-sm-9">
+                                                                    Diagnosis:
+                                                                    <ul>
+                                                                        {% for diagnosis in appeal.diagnoses %}
+                                                                            <li>{{ diagnosis.system_discomfort.discomfort_name }}</li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="margin-top: 10px;">
+                                                                <div class="col-sm-9">
+                                                                    <form action="{% url 'assign_appeal' appeal.id %}" method="post">
+                                                                        {% csrf_token %}
+                                                                        <div class="form-group">
+                                                                            <label for="specialist{{ appeal.id }}">Assign Specialist:</label>
+                                                                            <select class="form-select" name="specialist" id="specialist{{ appeal.id }}">
+                                                                                {% for specialist in specialists %}
+                                                                                    <option value="{{ specialist.id }}">{{ specialist.first_name }}</option>
+                                                                                {% endfor %}
+                                                                            </select>
+                                                                        </div>
+                                                                        <button type="submit" class="btn btn-success" style="margin-top: 10px;">Assign</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </tbody>
+                            </table>                                                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock content %}

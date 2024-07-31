@@ -104,6 +104,22 @@ class FacilityService(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     facility = models.ForeignKey(Facility, on_delete=models.CASCADE)
 
+class Appeal(models.Model):
+    patient_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    facility_id = models.ForeignKey(Facility, on_delete=models.CASCADE)
+    appeal_date = models.DateTimeField()
+    appeal_status = models.CharField(max_length=254, default='pending')
+    payment_status = models.CharField(max_length=254, default='null')
+
+    def __str__(self):
+        return f'Appeal for {self.facility_id.name} by {self.patient_id.username}'
+    
+class Appeal_Assignment(models.Model):
+    patient=models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='assigned_patient')
+    appeal=models.ForeignKey(Appeal, on_delete=models.CASCADE)
+    specialist=models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='assigned_specialist')
+
+
 
     groups = models.ManyToManyField(
         'auth.Group',
@@ -123,4 +139,3 @@ class FacilityService(models.Model):
     )
 
 
-# end service info

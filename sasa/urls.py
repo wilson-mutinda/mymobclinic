@@ -44,4 +44,9 @@ urlpatterns=[
     path('symptoms_step1/', views.symptoms_step1, name='symptoms_step1'),
     path('severity_page/', views.severity, name='severity'),
     path('fetch_severity_and_facility', views.fetch_severity_and_facility, name='fetch_severity_and_facility'),
+    path('patient_facility_fetch', views.patient_facility_fetch, name='patient_facility_fetch'),
+    path('create_appeal/<int:facility_id>/', views.create_appeal, name='create_appeal'),
+    path('dashboard_appeal_fetch', views.dashboard_appeal_fetch, name='dashboard_appeal_fetch'),
+    path('assign_appeal/<int:appeal_id>/', views.assign_appeal, name='assign_appeal'),
+    path('facility_book_page', views.facility_book_page, name='facility_book_page'),
 ]
